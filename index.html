@@ -21,9 +21,9 @@
     <script>
       const birthdayText = document.getElementById("birthdayText");
       birthdayText.innerHTML = `
-            <div id ="mainTitle">Happy Birthday, Darko!</div>
-            <div id ="subTitle">Make a wish and blow your candles.</div>
-        `;
+              <div id ="mainTitle">Happy Birthday, Darko!</div>
+              <div id ="subTitle">Make a wish and blow out your candles.</div>
+          `;
 
       const cake = document.getElementById("cake");
 
@@ -70,6 +70,73 @@
       }
 
       createCandles(17);
+
+      async function startMicDetection() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+
+          const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const source = audioContext.createMediaStreamSource(stream);
+          const analyser = audioContext.createAnalyser();
+          analyser.fftSize = 512;
+
+          source.connect(analyser);
+
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+          let blown = false;
+
+          function detectBlow() {
+            analyser.getByteFrequencyData(dataArray);
+
+            let highFreqSum = 0;
+            let lowFreqSum = 0;
+
+            const midpoint = dataArray.length / 2;
+
+            for (let i = 0; i < dataArray.length; i++) {
+              if (i < midpoint) {
+                lowFreqSum += dataArray[i];
+              } else {
+                highFreqSum += dataArray[i];
+              }
+
+              const highAvg = highFreqSum / (dataArray.length / 2);
+              const lowAvg = lowFreqSum / (dataArray.length / 2);
+
+              const ratio = highAvg / (lowAvg + 1);
+
+              const BLOW_RATIO_THRESHOLD = 0.5;
+
+              if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
+                blown = true;
+                blowOutCandles();
+              }
+              requestAnimationFrame(detectBlow);
+            }
+          }
+          detectBlow();
+        } catch (err) {
+          console.error("mic access error", err);
+        }
+      }
+
+      function blowOutCandles() {
+        const candles = document.querySelectorAll(".candle");
+        candles.forEach((candle) => {
+          const delay = Math.random() * 1000;
+          setTimeout(() => {
+            colors.forEach((color) => {
+              if (candle.classList.contains(color)) {
+                candle.classList.add("blown");
+              }
+            });
+          }, delay);
+        });
+      }
     </script>
   </body>
 </html>
