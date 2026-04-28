@@ -103,21 +103,22 @@
               } else {
                 highFreqSum += dataArray[i];
               }
-
-              const highAvg = highFreqSum / (dataArray.length / 2);
-              const lowAvg = lowFreqSum / (dataArray.length / 2);
-
-              const ratio = highAvg / (lowAvg + 1);
-
-              const BLOW_RATIO_THRESHOLD = 0.5;
-
-              if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
-                blown = true;
-                blowOutCandles();
-              }
-              requestAnimationFrame(detectBlow);
             }
+            const highAvg = highFreqSum / (dataArray.length / 2);
+            const lowAvg = lowFreqSum / (dataArray.length / 2);
+
+            const ratio = highAvg / (lowAvg + 1);
+
+            const BLOW_RATIO_THRESHOLD = 0.5;
+
+            if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
+              blown = true;
+              blowOutCandles();
+            }
+
+            requestAnimationFrame(detectBlow);
           }
+
           detectBlow();
         } catch (err) {
           console.error("mic access error", err);
@@ -136,7 +137,14 @@
             });
           }, delay);
         });
+
+        setTimeout(() => {
+          const subTitle = document.getElementById("subTitle");
+          subTitle.textContent = `Yay! I wish you the best 17th birthday ever!! mwah`;
+        }, 1200);
       }
+
+      startMicDetection();
     </script>
   </body>
 </html>
