@@ -37,7 +37,7 @@
               <div id ="mainTitle">Happy Birthday, Darko!</div>
               <div id ="subTitle">Make a wish and blow out your candles.</div>
           `;
-    
+
       const cake = document.getElementById("cake");
 
       const colors = [
@@ -120,11 +120,10 @@
             const highAvg = highFreqSum / (dataArray.length / 2);
             const lowAvg = lowFreqSum / (dataArray.length / 2);
 
-            const ratio = highAvg / (lowAvg + 1);
+            const volume =
+              dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length;
 
-            const BLOW_RATIO_THRESHOLD = 0.5;
-
-            if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
+            if (volume > 35 && !blown) {
               blown = true;
               blowOutCandles();
             }
