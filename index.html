@@ -19,14 +19,9 @@
     </div>
 
     <script>
-      const params = new URLSearchParams(window.location.search);
-      const name = params.get("name") || "Friend";
-      let candleCount = parseInt(params.get("candles")) || 4;
-      candleCount = Math.min(Math.max(candleCount, 1), 30);
-
       const birthdayText = document.getElementById("birthdayText");
       birthdayText.innerHTML = `
-            <div id ="mainTitle">Happy Birthday, ${name}!</div>
+            <div id ="mainTitle">Happy Birthday, Darko!</div>
             <div id ="subTitle">Make a wish and blow your candles.</div>
         `;
 
@@ -61,11 +56,20 @@
             candlesPerRow,
             count - row * candlesPerRow
           );
-
           const rowSpacing = availableWidth / (totalCandlesInRows + 1);
-            
+
+          const leftBase = rowSpacing * (col + 1) - CANDLE_VISUAL_WIDTH / 2 + 5;
+          const rowShift = row % 2 === 0 ? 0 : shiftAmount;
+
+          candle.style.position = "absolute";
+          candle.style.top = `${10 + row * 3}px`;
+          candle.style.left = `${leftBase - rowShift + 4}px`;
+
+          cake.appendChild(candle);
         }
       }
+
+      createCandles(17);
     </script>
   </body>
 </html>
