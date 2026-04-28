@@ -12,7 +12,8 @@ It's almost their birthday so I wanted to make them this since they
 love coding even more than I do. It's also because they already know
 what my birthday gift to them is so I wanted to have a little small 
 thing on top of that. I might add more to this so that it has multiple
-pages. For now, I'm unsure
+pages. For now, I'm unsure. (I just really hope they don't peek at my 
+github and find this project.)
 
 # Challenges/Lessons Learned 𐔌՞. .՞𐦯
 
