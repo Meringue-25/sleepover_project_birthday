@@ -1,37 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Birthday Cake</title>
-    <link rel="stylesheet" href="style.css"/>
-
-    <!--google font -->
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap" rel="stylesheet">
-
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gaegu&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div id="birthdayText"></div>
-        <div class="cake-container">
-            <div class="cake" id="cake"></div>
-        </div>
+      <div id="birthdayText"></div>
+      <div class="cake-container">
+        <div class="cake" id="cake"></div>
+      </div>
     </div>
-    
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const name = params.get("name") || "Friend";
-        let candleCount = parseInt(params.get("candles")) || 4;
-        candleCount = Math.min(Math.max(candleCount, 1), 30);
 
-        const birthdayText = document.getElementById("birthdayText");
-        birthdayText.innerHTML = `
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name") || "Friend";
+      let candleCount = parseInt(params.get("candles")) || 4;
+      candleCount = Math.min(Math.max(candleCount, 1), 30);
+
+      const birthdayText = document.getElementById("birthdayText");
+      birthdayText.innerHTML = `
             <div id ="mainTitle">Happy Birthday, ${name}!</div>
-            <div id ="subTitle">Make a wish and blow candles.</div>
+            <div id ="subTitle">Make a wish and blow your candles.</div>
         `;
 
-        const cake = document.getElementById("cake");
+      const cake = document.getElementById("cake");
 
+      const colors = [
+        "green-candle",
+        "purple-candle",
+        "blue-candle",
+        "yellow-candle",
+      ];
+
+      const CAKE_VISUAL_WIDTH = 35;
+
+      function createCandles(count) {
+        cake.innerHTML = "";
+        const CANDLE_VISUAL_WIDTH = 2;
+        const availableWidth = CAKE_VISUAL_WIDTH;
+        const candlesPerRow = 6;
+        const rowCount = Math.ceil(count / candlesPerRow);
+        const shiftAmount = 4;
+
+        for (let i = 0; i < count; i++) {
+          const candle = document.createElement("div");
+          candle.classList.add("candle");
+          const colorClass = colors[Math.floor(Math.random() * colors.length)];
+          candle.classList.add(colorClass);
+
+          const row = Math.floor(i / candlesPerRow);
+          const col = i % candlesPerRow;
+          const totalCandlesInRows = Math.min(
+            candlesPerRow,
+            count - row * candlesPerRow
+          );
+
+          const rowSpacing = availableWidth / (totalCandlesInRows + 1);
+            
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
